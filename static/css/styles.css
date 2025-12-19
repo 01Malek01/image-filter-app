@@ -205,10 +205,14 @@ p {
   justify-content: space-between;
   align-items: center;
   padding: 16px 18px 10px;
+  flex-wrap: wrap;
+  overflow-x: auto;
 }
 
 .controls {
   gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .buttons {

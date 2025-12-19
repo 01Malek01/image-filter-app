@@ -87,8 +87,7 @@
               <h2>بعد الفلتر</h2>
             </div>
             <div class="buttons">
-              <form action="{{ url_for('apply_filter') }}" method="post">
-                <input type="hidden" name="filter" value="mono" />
+              <form action="{{ url_for('reset') }}" method="post">
                 <button
                   class="ghost"
                   type="submit"
@@ -100,11 +99,11 @@
                   endif
                   %}
                 >
-                  Mono
+                  Reset
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">
-                <input type="hidden" name="filter" value="edge" />
+                <input type="hidden" name="filter" value="sobelx" />
                 <button
                   class="ghost"
                   type="submit"
@@ -116,7 +115,103 @@
                   endif
                   %}
                 >
-                  Edge Sketch
+                  Sobel X
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="sobely" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Sobel Y
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="sobel" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Sobel Combined
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="min" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Min Filter
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="max" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Max Filter
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="median" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Median Filter
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="mean" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Mean Filter
                 </button>
               </form>
             </div>

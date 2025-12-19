@@ -51,7 +51,8 @@ def create_app() -> Flask:
     def apply_filter():
         filter_name = request.form.get("filter")
         images = _get_images()
-        encoded_image = images.get("original")
+        # Stack filters: use processed if present, otherwise original
+        encoded_image = images.get("processed") or images.get("original")
         if not encoded_image:
             flash("Upload an image first.")
             return redirect(url_for("index"))
@@ -60,6 +61,16 @@ def create_app() -> Flask:
         filtered = _run_filter(image, filter_name)
         images["processed"] = _encode_image(filtered)
         flash("Filter applied.")
+        return redirect(url_for("index"))
+
+    @app.route("/reset", methods=["POST"]) 
+    def reset():
+        images = _get_images()
+        if images:
+            images["processed"] = None
+            flash("Reset to original image.")
+        else:
+            flash("Upload an image first.")
         return redirect(url_for("index"))
 
     return app
@@ -91,14 +102,49 @@ def _encode_image(image) -> str:
 
 
 def _run_filter(image, filter_name: str):
-    if filter_name == "mono":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        return cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 
-    if filter_name == "edge":
+    if filter_name == "mean":
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(gray, 90, 160)
-        return cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        mean_filtered = cv2.blur(gray, (3, 3))
+        return cv2.cvtColor(mean_filtered, cv2.COLOR_GRAY2BGR)
+
+    if filter_name == "median":
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        median_filtered = cv2.medianBlur(gray, 3)
+        return cv2.cvtColor(median_filtered, cv2.COLOR_GRAY2BGR)
+
+    if filter_name == "min":
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        kernel = np.ones((3, 3), np.uint8)
+        min_filtered = cv2.erode(gray, kernel)
+        return cv2.cvtColor(min_filtered, cv2.COLOR_GRAY2BGR)
+
+    if filter_name == "max":
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        kernel = np.ones((3, 3), np.uint8)
+        max_filtered = cv2.dilate(gray, kernel)
+        return cv2.cvtColor(max_filtered, cv2.COLOR_GRAY2BGR)
+
+    if filter_name == "sobelx":
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        sx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+        sx = np.uint8(np.absolute(sx))
+        return cv2.cvtColor(sx, cv2.COLOR_GRAY2BGR)
+
+    if filter_name == "sobely":
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        sy = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+        sy = np.uint8(np.absolute(sy))
+        return cv2.cvtColor(sy, cv2.COLOR_GRAY2BGR)
+
+    if filter_name == "sobel":
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        sx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+        sy = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+        sx = np.uint8(np.absolute(sx))
+        sy = np.uint8(np.absolute(sy))
+        combined = cv2.bitwise_or(sx, sy)
+        return cv2.cvtColor(combined, cv2.COLOR_GRAY2BGR)
 
     # Default: a gentle glow effect.
     blur = cv2.GaussianBlur(image, (0, 0), sigmaX=8)
