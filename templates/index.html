@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Instant Image Filters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="backdrop">
+      <div class="glow glow-a"></div>
+      <div class="glow glow-b"></div>
+    </div>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Image Filtering</p>
+          <h1>Drop a photo, tap a filter.</h1>
+          <p class="lede">ارفع الصورة , دوس علي رفع , واختار الفلتر</p>
+          <p class="lede">Made by: مالك مصطفي , احمد محمود البنا, يوسف طارق</p>
+        </div>
+        <form
+          class="upload"
+          action="{{ url_for('upload') }}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <label class="upload-area" for="image">
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              required
+            />
+            <div class="upload-copy">
+              <span class="dot">●</span>
+              <div>
+                <p class="upload-title">اختار الصورة</p>
+                <p class="upload-sub">PNG, JPG, or WEBP</p>
+              </div>
+            </div>
+          </label>
+          <button class="primary" type="submit">رفع</button>
+        </form>
+      </header>
+
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="flash">
+        {% for message in messages %}
+        <div class="flash-item">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <section class="panels">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>الصورة الأصلية</h2>
+            </div>
+          </div>
+          <div class="frame">
+            {% if original_image %}
+            <img
+              src="data:image/png;base64,{{ original_image }}"
+              alt="Uploaded image"
+            />
+            {% else %}
+            <p class="placeholder">Upload an image to begin.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head controls">
+            <div>
+              <h2>بعد الفلتر</h2>
+            </div>
+            <div class="buttons">
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="mono" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Mono
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="edge" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Edge Sketch
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="frame">
+            {% if processed_image %}
+            <img
+              src="data:image/png;base64,{{ processed_image }}"
+              alt="Processed image"
+            />
+            {% else %}
+            <p class="placeholder">Pick a filter to see the transformation.</p>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,277 @@
+:root {
+  --bg: #0b1224;
+  --card: rgba(255, 255, 255, 0.06);
+  --stroke: rgba(255, 255, 255, 0.12);
+  --text: #e9edf5;
+  --muted: #9daccc;
+  --accent: #7ae7c7;
+  --accent-2: #7db3ff;
+  --shadow: 0 18px 50px rgba(6, 10, 30, 0.45);
+  font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #264ba1;
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 20px 72px;
+  z-index: 1;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  align-items: center;
+  padding: 28px;
+  border: 1px solid var(--stroke);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.02)
+  );
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+h1 {
+  margin: 12px 0 10px;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  margin: 6px 0 0;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+
+.upload {
+  display: grid;
+  gap: 12px;
+}
+
+.upload-area {
+  border: 1px dashed var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.upload-area:hover {
+  border-color: rgba(122, 231, 199, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.upload input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.upload-copy {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.dot {
+  color: var(--accent);
+  font-size: 22px;
+}
+
+.upload-title {
+  font-weight: 600;
+}
+
+.upload-sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.primary,
+.ghost {
+  font: inherit;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease,
+    color 0.2s ease, opacity 0.2s ease;
+}
+
+.primary {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  color: #0c1426;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(122, 231, 199, 0.25);
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 34px rgba(125, 179, 255, 0.25);
+}
+
+.ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--stroke);
+  color: var(--text);
+}
+
+.ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ghost:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.flash {
+  margin: 22px 0;
+  display: grid;
+  gap: 8px;
+}
+
+.flash-item {
+  padding: 12px 14px;
+  background: rgba(122, 231, 199, 0.08);
+  border: 1px solid rgba(122, 231, 199, 0.35);
+  color: #c9f5e5;
+  border-radius: 12px;
+}
+
+.panels {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.panel {
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow);
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px 10px;
+}
+
+.controls {
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.frame {
+  border-top: 1px solid var(--stroke);
+  padding: 16px;
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  border-radius: 0 0 18px 18px;
+  overflow: hidden;
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.placeholder {
+  color: var(--muted);
+  text-align: center;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.glow {
+  position: absolute;
+  filter: blur(100px);
+  opacity: 0.55;
+}
+
+.glow-a {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(
+    circle at center,
+    rgba(122, 231, 199, 0.45),
+    transparent 60%
+  );
+  top: -80px;
+  left: -60px;
+}
+
+.glow-b {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(
+    circle at center,
+    rgba(125, 179, 255, 0.4),
+    transparent 60%
+  );
+  bottom: -60px;
+  right: -40px;
+}
