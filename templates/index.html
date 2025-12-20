@@ -150,6 +150,54 @@
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="prewittx" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Prewitt X
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="prewitty" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Prewitt Y
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="prewitt" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Prewitt Combined
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
                 <input type="hidden" name="filter" value="laplacian" />
                 <button
                   class="ghost"
