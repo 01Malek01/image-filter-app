@@ -26,7 +26,6 @@
           <p class="eyebrow">Image Filtering</p>
           <h1>Drop a photo, tap a filter.</h1>
           <p class="lede">ارفع الصورة , دوس علي رفع , واختار الفلتر</p>
-          <p class="lede">Made by: مالك مصطفي , احمد محمود البنا, يوسف طارق</p>
         </div>
         <form
           class="upload"
@@ -151,6 +150,22 @@
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="laplacian" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Laplacian Filter
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
                 <input type="hidden" name="filter" value="min" />
                 <button
                   class="ghost"
@@ -167,6 +182,22 @@
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="pepper_removal" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Pepper Noise Removal
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
                 <input type="hidden" name="filter" value="max" />
                 <button
                   class="ghost"
@@ -180,6 +211,22 @@
                   %}
                 >
                   Max Filter
+                </button>
+              </form>
+              <form action="{{ url_for('apply_filter') }}" method="post">
+                <input type="hidden" name="filter" value="salt_removal" />
+                <button
+                  class="ghost"
+                  type="submit"
+                  {%
+                  if
+                  not
+                  original_image
+                  %}disabled{%
+                  endif
+                  %}
+                >
+                  Salt Noise Removal
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">

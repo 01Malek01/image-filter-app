@@ -6,6 +6,19 @@ import cv2
 import numpy as np
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 
+from filters import (
+    apply_mean,
+    apply_median,
+    apply_min,
+    apply_pepper_removal,
+    apply_max,
+    apply_salt_removal,
+    apply_sobelx,
+    apply_sobely,
+    apply_sobel,
+    apply_laplacian,
+)
+
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 IMAGE_STORE = {}
 
@@ -104,47 +117,34 @@ def _encode_image(image) -> str:
 def _run_filter(image, filter_name: str):
 
     if filter_name == "mean":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        mean_filtered = cv2.blur(gray, (3, 3))
-        return cv2.cvtColor(mean_filtered, cv2.COLOR_GRAY2BGR)
+        return apply_mean(image)
 
     if filter_name == "median":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        median_filtered = cv2.medianBlur(gray, 3)
-        return cv2.cvtColor(median_filtered, cv2.COLOR_GRAY2BGR)
+        return apply_median(image)
 
     if filter_name == "min":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        kernel = np.ones((3, 3), np.uint8)
-        min_filtered = cv2.erode(gray, kernel)
-        return cv2.cvtColor(min_filtered, cv2.COLOR_GRAY2BGR)
+        return apply_min(image)
+
+    if filter_name == "pepper_removal":
+        return apply_pepper_removal(image)
 
     if filter_name == "max":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        kernel = np.ones((3, 3), np.uint8)
-        max_filtered = cv2.dilate(gray, kernel)
-        return cv2.cvtColor(max_filtered, cv2.COLOR_GRAY2BGR)
+        return apply_max(image)
+
+    if filter_name == "salt_removal":
+        return apply_salt_removal(image)
 
     if filter_name == "sobelx":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        sx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
-        sx = np.uint8(np.absolute(sx))
-        return cv2.cvtColor(sx, cv2.COLOR_GRAY2BGR)
+        return apply_sobelx(image)
 
     if filter_name == "sobely":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        sy = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
-        sy = np.uint8(np.absolute(sy))
-        return cv2.cvtColor(sy, cv2.COLOR_GRAY2BGR)
+        return apply_sobely(image)
 
     if filter_name == "sobel":
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        sx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
-        sy = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
-        sx = np.uint8(np.absolute(sx))
-        sy = np.uint8(np.absolute(sy))
-        combined = cv2.bitwise_or(sx, sy)
-        return cv2.cvtColor(combined, cv2.COLOR_GRAY2BGR)
+        return apply_sobel(image)
+
+    if filter_name == "laplacian":
+        return apply_laplacian(image)
 
     # Default: a gentle glow effect.
     blur = cv2.GaussianBlur(image, (0, 0), sigmaX=8)
