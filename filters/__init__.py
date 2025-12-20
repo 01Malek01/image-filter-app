@@ -6,6 +6,7 @@ from .max import apply_max
 from .salt_removal import apply_salt_removal
 from .sobel import apply_sobelx, apply_sobely, apply_sobel
 from .laplacian import apply_laplacian
+from .prewitt import apply_prewittx, apply_prewitty, apply_prewitt
 
 __all__ = [
     "apply_mean",
@@ -18,4 +19,7 @@ __all__ = [
     "apply_sobely",
     "apply_sobel",
     "apply_laplacian",
+    "apply_prewittx",
+    "apply_prewitty",
+    "apply_prewitt",
 ]

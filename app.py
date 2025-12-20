@@ -17,6 +17,9 @@ from filters import (
     apply_sobely,
     apply_sobel,
     apply_laplacian,
+    apply_prewittx,
+    apply_prewitty,
+    apply_prewitt,
 )
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
@@ -25,17 +28,20 @@ IMAGE_STORE = {}
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    # Simple dev secret; replace for production use.
-    app.config["SECRET_KEY"] = "change-me"
+    app.config["SECRET_KEY"] = "secret-key-change-me-later-because-we-idk-stfu-please-يارب ناخد الدرجة كاملة عشن مشيلش المادة"
 
+
+# root endpoint for uploading and displaying images
     @app.route("/", methods=["GET"])
     def index():
         return render_template(
             "index.html",
+            # get images from memory store
             original_image=_get_images().get("original"),
             processed_image=_get_images().get("processed"),
         )
 
+# upload endpoint
     @app.route("/upload", methods=["POST"])
     def upload():
         file = request.files.get("image")
@@ -60,6 +66,7 @@ def create_app() -> Flask:
         flash("Image uploaded. Choose a filter to see the result.")
         return redirect(url_for("index"))
 
+#  filter application endpoint
     @app.route("/filter", methods=["POST"])
     def apply_filter():
         filter_name = request.form.get("filter")
@@ -93,6 +100,7 @@ def _is_allowed(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+# to convert uploaded file to cv2 image
 def _file_to_image(file_storage):
     data = file_storage.read()
     if not data:
@@ -145,6 +153,15 @@ def _run_filter(image, filter_name: str):
 
     if filter_name == "laplacian":
         return apply_laplacian(image)
+
+    if filter_name == "prewittx":
+        return apply_prewittx(image)
+
+    if filter_name == "prewitty":
+        return apply_prewitty(image)
+
+    if filter_name == "prewitt":
+        return apply_prewitt(image)
 
     # Default: a gentle glow effect.
     blur = cv2.GaussianBlur(image, (0, 0), sigmaX=8)
