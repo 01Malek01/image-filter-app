@@ -1,3 +1,24 @@
+"""Prewitt Edge Detection Filters
+
+Purpose:
+    Detects edges in an image using the Prewitt operator, a first-order derivative method
+    that uses discrete differentiation to calculate the gradient of image intensity.
+    The Prewitt filter is effective at detecting edges and emphasizing regions of high
+    spatial frequency. It provides separate horizontal (X) and vertical (Y) edge detection,
+    as well as a combined approach.
+
+Steps (Common to all Prewitt functions):
+    1. Convert the input BGR image to grayscale
+    2. Define the appropriate Prewitt kernel(s):
+       - Prewitt X: [[-1,0,1], [-1,0,1], [-1,0,1]] for horizontal edges
+       - Prewitt Y: [[-1,-1,-1], [0,0,0], [1,1,1]] for vertical edges
+    3. Apply the kernel using cv2.filter2D() to compute the gradient
+    4. Take the absolute value to get positive edge magnitudes
+    5. Convert to 8-bit unsigned integer format
+    6. For combined Prewitt: merge X and Y results using bitwise OR
+    7. Convert back to BGR color space for display consistency
+"""
+
 import cv2
 import numpy as np
 

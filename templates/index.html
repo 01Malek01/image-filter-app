@@ -214,22 +214,6 @@
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">
-                <input type="hidden" name="filter" value="min" />
-                <button
-                  class="ghost"
-                  type="submit"
-                  {%
-                  if
-                  not
-                  original_image
-                  %}disabled{%
-                  endif
-                  %}
-                >
-                  Min Filter
-                </button>
-              </form>
-              <form action="{{ url_for('apply_filter') }}" method="post">
                 <input type="hidden" name="filter" value="pepper_removal" />
                 <button
                   class="ghost"
@@ -242,23 +226,7 @@
                   endif
                   %}
                 >
-                  Pepper Noise Removal
-                </button>
-              </form>
-              <form action="{{ url_for('apply_filter') }}" method="post">
-                <input type="hidden" name="filter" value="max" />
-                <button
-                  class="ghost"
-                  type="submit"
-                  {%
-                  if
-                  not
-                  original_image
-                  %}disabled{%
-                  endif
-                  %}
-                >
-                  Max Filter
+                  Pepper Noise Removal ( min )
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">
@@ -274,7 +242,7 @@
                   endif
                   %}
                 >
-                  Salt Noise Removal
+                  Salt Noise Removal ( max )
                 </button>
               </form>
               <form action="{{ url_for('apply_filter') }}" method="post">

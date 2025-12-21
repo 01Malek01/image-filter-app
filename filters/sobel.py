@@ -1,3 +1,24 @@
+"""Sobel Edge Detection Filters
+
+Purpose:
+    Detects edges in an image using the Sobel operator, a first-order derivative method
+    that combines Gaussian smoothing with differentiation for better noise resistance.
+    The Sobel filter calculates the gradient of image intensity at each pixel, providing
+    information about edge direction and magnitude. It offers separate horizontal (X) and
+    vertical (Y) edge detection, as well as a combined approach.
+
+Steps (Common to all Sobel functions):
+    1. Convert the input BGR image to grayscale
+    2. Apply the Sobel operator using cv2.Sobel():
+       - Sobel X: derivatives in X direction (dx=1, dy=0) for horizontal edges
+       - Sobel Y: derivatives in Y direction (dx=0, dy=1) for vertical edges
+    3. Use CV_64F data type to handle negative values from the derivative
+    4. Take the absolute value to get positive edge magnitudes
+    5. Convert to 8-bit unsigned integer format
+    6. For combined Sobel: merge X and Y results using bitwise OR for complete edge map
+    7. Convert back to BGR color space for display consistency
+"""
+
 import cv2
 import numpy as np
 

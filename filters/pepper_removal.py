@@ -1,3 +1,19 @@
+"""Pepper Noise Removal Filter
+
+Purpose:
+    Removes pepper noise (small dark spots) from images using morphological erosion.
+    Pepper noise appears as isolated black pixels scattered throughout the image.
+    This filter specifically targets and reduces these dark artifacts while preserving
+    the overall image structure.
+
+Steps:
+    1. Convert the input BGR image to grayscale
+    2. Create a 3x3 kernel of ones for the morphological operation
+    3. Apply erosion using cv2.erode() which removes small dark spots by selecting minimum values
+    4. The erosion operation makes bright regions shrink and eliminates isolated dark pixels
+    5. Convert the result back to BGR color space for display consistency
+"""
+
 import cv2
 import numpy as np
 
